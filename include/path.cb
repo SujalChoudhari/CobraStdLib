@@ -1,7 +1,7 @@
 // Cobra Standard Library: Path Module
 // This file defines the interface for the native 'cobra_path' library.
 
-link "cobra_path";
+link "libcobra_path";
 
 namespace Path {
     // Joins two paths with the correct OS-specific separator.

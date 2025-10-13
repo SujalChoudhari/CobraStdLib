@@ -1,7 +1,7 @@
 // Cobra Standard Library: File Module
 // This file defines the interface for the native 'cobra_file' library.
 
-link "cobra_file";
+link "libcobra_file";
 
 namespace File {
     // Opens a file and returns a handle. Returns null on failure.
