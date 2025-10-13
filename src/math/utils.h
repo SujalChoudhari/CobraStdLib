@@ -1,12 +1,13 @@
 #pragma once
+#include "cobra.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-double clamp(double x, double lower, double upper);
-double lerp(double a, double b, double t);
-double smoothstep(double edge0, double edge1, double x);
+COBRA_API double clamp(double x, double lower, double upper);
+COBRA_API double lerp(double a, double b, double t);
+COBRA_API double smoothstep(double edge0, double edge1, double x);
 
 #ifdef __cplusplus
 }

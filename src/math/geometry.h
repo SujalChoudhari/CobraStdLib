@@ -1,4 +1,5 @@
 #pragma once
+#include "cobra.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -15,10 +16,10 @@ typedef struct {
     double z;
 } Point3D;
 
-double distance_2d(Point2D a, Point2D b);
-double distance_3d(Point3D a, Point3D b);
-double angle_between_vectors_2d(Point2D a, Point2D b);
-double angle_between_vectors_3d(Point3D a, Point3D b);
+COBRA_API double distance_2d(Point2D a, Point2D b);
+COBRA_API double distance_3d(Point3D a, Point3D b);
+COBRA_API double angle_between_vectors_2d(Point2D a, Point2D b);
+COBRA_API double angle_between_vectors_3d(Point3D a, Point3D b);
 
 #ifdef __cplusplus
 }

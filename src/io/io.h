@@ -1,30 +1,16 @@
 #pragma once
-
+#include "cobra.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-// Reads a full line from stdin, returns a dynamically allocated null-terminated string.
-// Caller is responsible for freeing the returned pointer.
-char* read_line(void);
-
-// Reads a single character from stdin (blocking).
-char read_char(void);
-
-// Reads an integer from stdin. Returns 0 if input is invalid (optional: set error state).
-int read_int(void);
-
-// Reads a double-precision float from stdin. Returns 0.0 on invalid input.
-double read_float(void);
-
-// Prints a string followed by a newline to stdout.
-void print_line(const char* str);
-
-// Prints a single character to stdout.
-void print_char(char c);
-
-// Flushes stdout buffer to ensure all output is displayed immediately.
-void flush_stdout(void);
+    COBRA_API char* read_line(void);
+    COBRA_API char read_char(void);
+    COBRA_API int read_int(void);
+    COBRA_API double read_float(void);
+    COBRA_API void print_line(const char* str);
+    COBRA_API void print_char(char c);
+    COBRA_API void flush_stdout(void);
 
 #ifdef __cplusplus
 }

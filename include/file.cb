@@ -1,0 +1,29 @@
+// Cobra Standard Library: File Module
+// This file defines the interface for the native 'cobra_file' library.
+
+link "cobra_file";
+
+namespace File {
+    // Opens a file and returns a handle. Returns null on failure.
+    // Modes: "r", "w", "a", "rb", "wb", etc.
+    external handle open(string path, string mode);
+
+    // Closes an open file handle.
+    external void close(handle fileHandle);
+
+    // Moves the file position. 'whence': 0=start, 1=current, 2=end.
+    // Returns 0 on success.
+    external int seek(handle fileHandle, int offset, int whence);
+
+    // Returns the current position in the file.
+    external int tell(handle fileHandle);
+
+    // Returns true if the end-of-file has been reached.
+    external bool eof(handle fileHandle);
+
+    // Flushes file buffers to disk.
+    external int flush(handle fileHandle);
+
+    // Returns true if a file exists at the given path.
+    external bool exists(string path);
+}
