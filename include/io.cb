@@ -1,7 +1,7 @@
 // Cobra Standard Library: IO Module
 // This file defines the interface for the native 'cobra_io' library.
 
-link "libcobra_io";
+link "cobra_io";
 
 namespace IO {
     // Reads a full line from stdin.

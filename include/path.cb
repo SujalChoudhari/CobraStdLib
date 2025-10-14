@@ -1,33 +1,11 @@
-// Cobra Standard Library: Path Module
-// This file defines the interface for the native 'cobra_path' library.
-
-link "libcobra_path";
+link "cobra_path";
 
 namespace Path {
-    // Joins two paths with the correct OS-specific separator.
-    // NOTE: This may leak memory in the current implementation.
-    external string join(string base, string addition);
-
-    // Returns the absolute path for a given path.
-    // NOTE: This may leak memory in the current implementation.
-    external string absolute(string path);
-
-    // Returns the directory name of a path.
-    // NOTE: This may leak memory in the current implementation.
-    external string dirname(string path);
-
-    // Returns the final component (basename) of a path.
-    // NOTE: This may leak memory in the current implementation.
-    external string basename(string path);
-
-    // Returns the file extension of a path.
-    // NOTE: This may leak memory in the current implementation.
-    external string extension(string path);
-
-    // Returns true if the path is an absolute path.
-    external bool isAbsolute(string path);
-
-    // Normalizes a path, resolving ".." and ".".
-    // NOTE: This may leak memory in the current implementation.
-    external string normalize(string path);
+    external string join(string base, string addition) as "path_join";
+    external string absolute(string path) as "path_absolute";
+    external string dirname(string path) as "path_dirname";
+    external string basename(string path) as "path_basename";
+    external string extension(string path) as "path_extension";
+    external bool isAbsolute(string path) as "path_isAbsolute";
+    external string normalize(string path) as "path_normalize";
 }
