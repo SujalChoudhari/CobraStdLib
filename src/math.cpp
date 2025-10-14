@@ -13,7 +13,7 @@ COBRA_API double math_round(double x) { return std::round(x); }
 COBRA_API double math_trunc(double x) { return std::trunc(x); }
 COBRA_API double math_round_to(double x, int decimals) {
     if (decimals < 0) decimals = 0;
-    double factor = std::pow(10.0, decimals);
+    const double factor = std::pow(10.0, decimals);
     return std::round(x * factor) / factor;
 }
 
