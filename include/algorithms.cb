@@ -1,9 +1,0 @@
-
-
-link "cobra_algorithms";
-
-
-
-namespace Algorithms {
-    external int sum(int a, int b);
-}

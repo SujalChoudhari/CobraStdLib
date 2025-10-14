@@ -23,5 +23,3 @@ function(add_cobra_library module_name)
 endfunction()
 
 add_cobra_library(math src/math.cpp)
-add_cobra_library(path src/path.cpp)
-add_cobra_library(file src/file.cpp)
