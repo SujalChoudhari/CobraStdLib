@@ -1,159 +1,18 @@
 link "cobra_str";
 
-namespace _InternalStr {
+namespace String {
     external handle new(string initial_value) as "str_new";
     external void delete(handle str_handle) as "str_delete";
+
     external string toString(handle str_handle) as "str_get_as_string";
-
     external int length(handle str_handle) as "str_length";
-    external bool equals(handle str_handle, string other) as "str_equals";
+
+    external handle clone(handle str_handle) as "str_clone";
     external bool equalsHandle(handle h1, handle h2) as "str_equals_handle";
-    external bool startsWith(handle str_handle, string prefix) as "str_starts_with";
-    external bool endsWith(handle str_handle, string suffix) as "str_ends_with";
-
-    external handle concat(handle str_handle, string other) as "str_concat";
     external handle concatHandle(handle h1, handle h2) as "str_concat_handle";
-    external handle substring(handle str_handle, int start, int length) as "str_substring";
-    external handle toUpper(handle str_handle) as "str_to_upper";
-    external handle toLower(handle str_handle) as "str_to_lower";
-    external handle reverse(handle str_handle) as "str_reverse";
-    external handle replace(handle str_handle, string old, string new) as "str_replace";
 
-    external handle trimStart(handle str_handle) as "str_trim_start";
-    external handle trimEnd(handle str_handle) as "str_trim_end";
-    external handle trim(handle str_handle) as "str_trim";
-
-    external handle split(handle str_handle, string delimiter) as "str_split";
-    external int splitResultCount(handle result_handle) as "str_split_result_count";
-    external handle splitResultGet(handle result_handle, int index) as "str_split_result_get";
-    external void splitResultDelete(handle result_handle) as "str_split_result_delete";
-}
-
-
-namespace String {
-
-    dict newFromHandle(handle h) {
-        dict wrapper = {
-            _handle: h,
-
-            // --- Resource Management ---
-            delete: void () {
-                _InternalStr.delete(h);
-            },
-
-            toString: string () {
-                return _InternalStr.toString(h);
-            },
-
-            // --- Information (Return Primitives) ---
-            length: int () {
-                return _InternalStr.length(h);
-            },
-
-            equals: bool (string other) {
-                return _InternalStr.equals(h, other);
-            },
-
-            equalsWrapper: bool (dict otherWrapper) {
-                return _InternalStr.equalsHandle(h, otherWrapper._handle);
-            },
-
-            startsWith: bool (string prefix) {
-                return _InternalStr.startsWith(h, prefix);
-            },
-
-            endsWith: bool (string suffix) {
-                return _InternalStr.endsWith(h, suffix);
-            },
-
-            // --- Manipulations (Return Primitives, Manage Handles Internally) ---
-            concat: string (string other) {
-                handle newHandle = _InternalStr.concat(h, other);
-                string result = _InternalStr.toString(newHandle);
-                _InternalStr.delete(newHandle);
-                return result;
-            },
-
-            substring: string (int start, int len) {
-                handle newHandle = _InternalStr.substring(h, start, len);
-                string result = _InternalStr.toString(newHandle);
-                _InternalStr.delete(newHandle);
-                return result;
-            },
-
-            toUpper: string () {
-                handle newHandle = _InternalStr.toUpper(h);
-                string result = _InternalStr.toString(newHandle);
-                _InternalStr.delete(newHandle);
-                return result;
-            },
-
-            toLower: string () {
-                handle newHandle = _InternalStr.toLower(h);
-                string result = _InternalStr.toString(newHandle);
-                _InternalStr.delete(newHandle);
-                return result;
-            },
-
-            reverse: string () {
-                handle newHandle = _InternalStr.reverse(h);
-                string result = _InternalStr.toString(newHandle);
-                _InternalStr.delete(newHandle);
-                return result;
-            },
-
-            replace: string (string old, string new) {
-                handle newHandle = _InternalStr.replace(h, old, new);
-                string result = _InternalStr.toString(newHandle);
-                _InternalStr.delete(newHandle);
-                return result;
-            },
-
-            trimStart: string () {
-                handle newHandle = _InternalStr.trimStart(h);
-                string result = _InternalStr.toString(newHandle);
-                _InternalStr.delete(newHandle);
-                return result;
-            },
-
-            trimEnd: string () {
-                handle newHandle = _InternalStr.trimEnd(h);
-                string result = _InternalStr.toString(newHandle);
-                _InternalStr.delete(newHandle);
-                return result;
-            },
-
-            trim: string () {
-                handle newHandle = _InternalStr.trim(h);
-                string result = _InternalStr.toString(newHandle);
-                _InternalStr.delete(newHandle);
-                return result;
-            },
-
-            split: string[] (string delimiter) {
-                handle resultHandle = _InternalStr.split(h, delimiter);
-                if (resultHandle == null) {
-                    return [];
-                }
-
-                string[] results = [];
-                int count = _InternalStr.splitResultCount(resultHandle);
-
-                for(int i=0; i < count; i = i + 1) {
-                    handle itemHandle = _InternalStr.splitResultGet(resultHandle, i);
-                    results.add(_InternalStr.toString(itemHandle));
-                }
-
-                _InternalStr.splitResultDelete(resultHandle);
-
-                return results;
-            }
-        };
-        return wrapper;
-    }
-
-    dict new(string initial_value) {
-        handle initial_handle = _InternalStr.new(initial_value);
-        return newFromHandle(initial_handle);
+    void println(handle str_handle) {
+        string cb_string = String.toString(str_handle);
+        print(cb_string);
     }
 }
