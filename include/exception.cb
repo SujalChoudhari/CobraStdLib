@@ -1,0 +1,20 @@
+namespace System {
+    class Exception {
+        private string message;
+
+        // Constructor to create a new exception with a message
+        constructor(string msg) {
+            this.message = msg;
+        }
+
+        // Public method to get the exception's message
+        public string getMessage() {
+            return this.message;
+        }
+
+        // A helper method for easy printing
+        public string toString() {
+            return "Exception: " + this.message;
+        }
+    }
+}
