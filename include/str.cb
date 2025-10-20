@@ -1,18 +1,106 @@
 link "cobra_str";
 
-namespace String {
-    external handle new(string initial_value) as "str_new";
+namespace Internal.String {
+    external handle create(string initial_value) as "str_create";
     external void delete(handle str_handle) as "str_delete";
-
-    external string toString(handle str_handle) as "str_get_as_string";
+    external string getAsString(handle str_handle) as "str_get_as_string";
     external int length(handle str_handle) as "str_length";
-
+    external bool isEmpty(handle str_handle) as "str_is_empty";
+    external string at(handle str_handle, int index) as "str_at";
+    external bool contains(handle str_handle, string sub) as "str_contains";
+    external bool startsWith(handle str_handle, string prefix) as "str_starts_with";
+    external bool endsWith(handle str_handle, string suffix) as "str_ends_with";
+    external int find(handle str_handle, string sub, int start) as "str_find";
+    external int rfind(handle str_handle, string sub, int start) as "str_rfind";
     external handle clone(handle str_handle) as "str_clone";
-    external bool equalsHandle(handle h1, handle h2) as "str_equals_handle";
-    external handle concatHandle(handle h1, handle h2) as "str_concat_handle";
+    external handle toUpper(handle str_handle) as "str_to_upper";
+    external handle toLower(handle str_handle) as "str_to_lower";
+    external handle substring(handle str_handle, int start, int len) as "str_substring";
+    external handle replace(handle str_handle, string old_str, string new_str) as "str_replace";
+    external handle trim(handle str_handle) as "str_trim";
+    external handle reverse(handle str_handle) as "str_reverse";
+    external handle concat(handle h1, handle h2) as "str_concat_handle";
+}
 
-    void println(handle str_handle) {
-        string cb_string = String.toString(str_handle);
-        print(cb_string);
+class String {
+    private handle _handle;
+
+    constructor(string initial_value) {
+        this._handle = Internal.String.create(initial_value);
+    }
+
+    destructor() {
+        Internal.String.delete(this._handle);
+    }
+
+    public int length() {
+        return Internal.String.length(this._handle);
+    }
+
+    public bool isEmpty() {
+        return Internal.String.isEmpty(this._handle);
+    }
+
+    public string at(int index) {
+        return Internal.String.at(this._handle, index);
+    }
+
+    public bool contains(string substring) {
+        return Internal.String.contains(this._handle, substring);
+    }
+
+    public bool startsWith(string prefix) {
+        return Internal.String.startsWith(this._handle, prefix);
+    }
+
+    public bool endsWith(string suffix) {
+        return Internal.String.endsWith(this._handle, suffix);
+    }
+
+    public int find(string substring, int start_pos) {
+        return Internal.String.find(this._handle, substring, start_pos);
+    }
+
+    public int rfind(string substring, int start_pos) {
+        return Internal.String.rfind(this._handle, substring, start_pos);
+    }
+
+    public String toUpperCase() {
+        return this._createFromStringHandle(Internal.String.toUpper(this._handle));
+    }
+
+    public String toLowerCase() {
+        return this._createFromStringHandle(Internal.String.toLower(this._handle));
+    }
+
+    public String substring(int start, int len) {
+        return this._createFromStringHandle(Internal.String.substring(this._handle, start, len));
+    }
+
+    public String replace(string old_str, string new_str) {
+        return this._createFromStringHandle(Internal.String.replace(this._handle, old_str, new_str));
+    }
+
+    public String trim() {
+        return this._createFromStringHandle(Internal.String.trim(this._handle));
+    }
+
+    public String reverse() {
+        return this._createFromStringHandle(Internal.String.reverse(this._handle));
+    }
+
+    public String concat(String other) {
+        return this._createFromStringHandle(Internal.String.concat(this._handle, other._handle));
+    }
+
+    public string toString() {
+        return Internal.String.getAsString(this._handle);
+    }
+
+    private String _createFromStringHandle(handle new_handle) {
+        string native_string = Internal.String.getAsString(new_handle);
+        // Important: we now own this handle, so we must free it after converting it to a Cobra-managed String object.
+        Internal.String.delete(new_handle);
+        return new String(native_string);
     }
 }

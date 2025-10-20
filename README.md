@@ -1,105 +1,93 @@
-
 # CobraStdLib
 
-**CobraStdLib** is the standard library for the [Cobra programming language](https://github.com/SujalChoudhari/Cobra). It is designed as a modular, shared library (DLL/.so) that provides essential runtime functionality and utilities to support Cobra programs.
+**CobraStdLib** is the **standard library** for the [Cobra programming language](https://github.com/SujalChoudhari/Cobra).
+It provides core runtime utilities and foundational components as a **modular, shared library** (`.dll` / `.so`) for use in Cobra programs.
 
 ---
 
 ## Repository
 
-- **Repo URL:** [https://github.com/SujalChoudhari/CobraStdLib](https://github.com/SujalChoudhari/CobraStdLib)
-- **Cobra Language:** [https://github.com/SujalChoudhari/Cobra](https://github.com/SujalChoudhari/Cobra)
+* **Library:** [https://github.com/SujalChoudhari/CobraStdLib](https://github.com/SujalChoudhari/CobraStdLib)
+* **Language Core:** [https://github.com/SujalChoudhari/Cobra](https://github.com/SujalChoudhari/Cobra)
 
 ---
 
-## Overview
+## Purpose
 
-The CobraStdLib aims to be a comprehensive, efficient, and easy-to-integrate standard library for the Cobra language. It provides:
+CobraStdLib defines the **runtime backbone** of Cobra. It focuses on clarity, efficiency, and modularity to allow independent development of each functional area.
 
-- Core **mathematical functions and constants**
-- Basic **input/output utilities**
-- **File handling** operations
-- **Path manipulation** utilities
-- (Future) **Data structures**, **string processing**, **time/date**, and more
+**Key objectives:**
 
-The library is built as modular shared libraries (DLL on Windows, .so on Unix-like systems), enabling fine-grained usage and easier maintenance.
-
----
-
-## Current Modules
-
-| Module        | Description                           |
-|---------------|-------------------------------------|
-| Math          | Arithmetic functions, constants     |
-| IO            | Console input/output utilities      |
-| File          | Basic file handling (open, read, write, seek) |
-| Path          | Path manipulation (join, normalize, absolute) |
-| Algorithms    | Sorting, searching algorithms       |
-| Collections   | Dynamic arrays, hashmaps, sets      |
-| String        | Substring, search, formatting, regex |
-| Time & Date   | Current time, formatting, timers    |
-| Concurrency   | Threads, mutexes, async              |
+* Provide a **consistent runtime API** for the Cobra language
+* Enable **fine-grained modular builds** (only link what’s needed)
+* Maintain **cross-platform compatibility** across Windows, Linux, and macOS
+* Serve as a **clean reference** for language–library integration in compiler design
 
 ---
 
-## Module Status
+## Features and Modules
 
-- [x] Math - Implemented  
-- [x] IO - Implemented  
-- [x] File - Implemented  
-- [x] Path - Implemented  
-- [ ] Algorithms - In Progress  
-- [ ] Collections - Planned  
-- [ ] String - Planned  
-- [ ] Time & Date - Planned  
-- [ ] Concurrency - Planned  
+| Module      | Description                                      | Status        |
+| ----------- | ------------------------------------------------ | ------------- |
+| Math        | Arithmetic operations and constants              | ✅ Implemented |
+| Strings     | String manipulation and formatting               | ✅ Implemented |
+| IO          | Console input/output utilities                   | 🚧 Planned    |
+| File        | File reading, writing, and seeking               | 🚧 Planned    |
+| Path        | Path normalization, joining, absolute resolution | 🚧 Planned    |
+| Algorithms  | Sorting and searching algorithms                 | 🚧 Planned    |
+| Collections | Dynamic arrays, hashmaps, and sets               | 🚧 Planned    |
+| Time & Date | Time retrieval, formatting, and timers           | 🚧 Planned    |
+| Concurrency | Threads, mutexes, and async primitives           | 🚧 Planned    |
 
 ---
 
 ## Build Instructions
 
-Ensure you have **CMake 3.20+** and a C++23 capable compiler installed.
+**Requirements:**
 
-Clone the repo:
+* **CMake ≥ 3.20**
+* **C++23** compliant compiler (GCC, Clang, or MSVC)
+
 ```bash
 git clone https://github.com/SujalChoudhari/CobraStdLib.git
 cd CobraStdLib
-````
-
-Build using CMake:
-
-```bash
-mkdir build
-cd build
+mkdir build && cd build
 cmake ..
 cmake --build .
 ```
 
-This will produce shared libraries like `cobra_math.dll` / `libcobra_math.so` and others inside the build directory.
+**Output:**
+Platform-specific shared libraries such as:
+
+* `cobra_math.dll` / `libcobra_math.so`
+* `cobra_string.dll` / `libcobra_string.so`
+* (and others as modules are implemented)
 
 ---
 
-## Integration with Cobra Language
+## Integration with Cobra
 
-The Cobra language runtime will dynamically load and link with these shared libraries to provide its standard library features. This modular approach allows:
+CobraStdLib is dynamically linked by the **Cobra runtime**, enabling:
 
-* Independent development and testing of modules
-* Optional linking of required modules only
-* Clear separation between language core and standard utilities
+* Independent testing and versioning of modules
+* On-demand linking of required functionality
+* Clear separation of **language core** and **standard utilities**
+
+This design supports a compiler–runtime model similar to languages like **Go** or **Rust**, ensuring maintainability and extensibility.
 
 ---
 
-## Contribution & Roadmap
+## Roadmap
 
-Contributions are welcome! Please raise issues or submit pull requests for bugs, enhancements, or new modules.
+* Finalize and test `IO`, `File`, and `Path` modules
+* Add optimized data structures and algorithms
+* Integrate concurrency primitives
+* Implement standardized time/date utilities
+* Improve build scripts and CI integration
 
-### Next priorities:
+---
 
-* [ ] Complete **algorithms** module (sorting, searching)
-* [ ] Implement **collections** (dynamic arrays, hashmaps)
-* [ ] Develop **string** utilities (formatting, manipulation)
-* [ ] Add **time & date** functions
-* [ ] Design and add **error handling** and **logging** facilities
-* [ ] Explore **concurrency** support
+## Contributing
 
-
+Contributions are welcome.
+Report issues or open pull requests for new modules, optimizations, or documentation improvements.
