@@ -1,106 +1,91 @@
+// The Cobra String class, providing a high-level, object-oriented interface
+// for native string manipulation.
+
+// Link to the native library. This must be at the top level.
 link "cobra_str";
 
-namespace Internal.String {
-    external handle create(string initial_value) as "str_create";
-    external void delete(handle str_handle) as "str_delete";
-    external string getAsString(handle str_handle) as "str_get_as_string";
-    external int length(handle str_handle) as "str_length";
-    external bool isEmpty(handle str_handle) as "str_is_empty";
-    external string at(handle str_handle, int index) as "str_at";
-    external bool contains(handle str_handle, string sub) as "str_contains";
-    external bool startsWith(handle str_handle, string prefix) as "str_starts_with";
-    external bool endsWith(handle str_handle, string suffix) as "str_ends_with";
-    external int find(handle str_handle, string sub, int start) as "str_find";
-    external int rfind(handle str_handle, string sub, int start) as "str_rfind";
-    external handle clone(handle str_handle) as "str_clone";
-    external handle toUpper(handle str_handle) as "str_to_upper";
-    external handle toLower(handle str_handle) as "str_to_lower";
-    external handle substring(handle str_handle, int start, int len) as "str_substring";
-    external handle replace(handle str_handle, string old_str, string new_str) as "str_replace";
-    external handle trim(handle str_handle) as "str_trim";
-    external handle reverse(handle str_handle) as "str_reverse";
-    external handle concat(handle h1, handle h2) as "str_concat_handle";
-}
+// Low-level external function declarations. These must be at the top level.
+external handle str_create(string initial_value);
+external void str_delete(handle h);
+external string str_get_as_string(handle h);
+external int str_length(handle h);
+external bool str_is_empty(handle h);
+external bool str_contains(handle h, string sub);
+external handle str_to_upper(handle h);
+external handle str_to_lower(handle h);
+external handle str_substring(handle h, int start, int len);
+external handle str_replace(handle h, string old_str, string new_str);
 
-class String {
-    private handle _handle;
+namespace System {
+    class String {
+        // The handle to the native C++ string object.
+        // The underscore is a convention to indicate it's for internal use.
+        handle _handle;
 
-    constructor(string initial_value) {
-        this._handle = Internal.String.create(initial_value);
-    }
+        // Constructor for creating an empty string.
+        constructor() {
+            this._handle = str_create("");
+        }
 
-    destructor() {
-        Internal.String.delete(this._handle);
-    }
+        // Constructor from a standard Cobra string.
+        constructor(string initial_value) {
+            this._handle = str_create(initial_value);
+        }
 
-    public int length() {
-        return Internal.String.length(this._handle);
-    }
+        // Private constructor for internal use. This is simulated by convention
+        // as the language doesn't have private constructors. It takes a handle
+        // that has already been created by another native function.
+        constructor(handle h, bool is_internal) {
+            this._handle = h;
+        }
 
-    public bool isEmpty() {
-        return Internal.String.isEmpty(this._handle);
-    }
+        // Destructor automatically frees the native string memory.
+        destructor() {
+            str_delete(this._handle);
+        }
 
-    public string at(int index) {
-        return Internal.String.at(this._handle, index);
-    }
+        // Returns the string's content for printing or use with built-in strings.
+        string toString() {
+            return str_get_as_string(this._handle);
+        }
 
-    public bool contains(string substring) {
-        return Internal.String.contains(this._handle, substring);
-    }
+        // Returns the number of characters in the string.
+        int length() {
+            return str_length(this._handle);
+        }
 
-    public bool startsWith(string prefix) {
-        return Internal.String.startsWith(this._handle, prefix);
-    }
+        // Returns true if the string is empty.
+        bool isEmpty() {
+            return str_is_empty(this._handle);
+        }
 
-    public bool endsWith(string suffix) {
-        return Internal.String.endsWith(this._handle, suffix);
-    }
+        // Returns true if the string contains the given substring.
+        bool contains(string substring) {
+            return str_contains(this._handle, substring);
+        }
 
-    public int find(string substring, int start_pos) {
-        return Internal.String.find(this._handle, substring, start_pos);
-    }
+        // Returns a new String object with all characters converted to uppercase.
+        String toUpper() {
+            handle new_handle = str_to_upper(this._handle);
+            return new String(new_handle, true);
+        }
 
-    public int rfind(string substring, int start_pos) {
-        return Internal.String.rfind(this._handle, substring, start_pos);
-    }
+        // Returns a new String object with all characters converted to lowercase.
+        String toLower() {
+            handle new_handle = str_to_lower(this._handle);
+            return new String(new_handle, true);
+        }
 
-    public String toUpperCase() {
-        return this._createFromStringHandle(Internal.String.toUpper(this._handle));
-    }
+        // Returns a new String object containing a portion of the original string.
+        String substring(int start, int len) {
+            handle new_handle = str_substring(this._handle, start, len);
+            return new String(new_handle, true);
+        }
 
-    public String toLowerCase() {
-        return this._createFromStringHandle(Internal.String.toLower(this._handle));
-    }
-
-    public String substring(int start, int len) {
-        return this._createFromStringHandle(Internal.String.substring(this._handle, start, len));
-    }
-
-    public String replace(string old_str, string new_str) {
-        return this._createFromStringHandle(Internal.String.replace(this._handle, old_str, new_str));
-    }
-
-    public String trim() {
-        return this._createFromStringHandle(Internal.String.trim(this._handle));
-    }
-
-    public String reverse() {
-        return this._createFromStringHandle(Internal.String.reverse(this._handle));
-    }
-
-    public String concat(String other) {
-        return this._createFromStringHandle(Internal.String.concat(this._handle, other._handle));
-    }
-
-    public string toString() {
-        return Internal.String.getAsString(this._handle);
-    }
-
-    private String _createFromStringHandle(handle new_handle) {
-        string native_string = Internal.String.getAsString(new_handle);
-        // Important: we now own this handle, so we must free it after converting it to a Cobra-managed String object.
-        Internal.String.delete(new_handle);
-        return new String(native_string);
+        // Returns a new String object with all occurrences of a substring replaced.
+        String replace(string old_sub, string new_sub) {
+            handle new_handle = str_replace(this._handle, old_sub, new_sub);
+            return new String(new_handle, true);
+        }
     }
 }

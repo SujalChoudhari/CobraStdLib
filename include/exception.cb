@@ -1,17 +1,12 @@
-namespace System {
-    class Exception {
-        private string message;
-        
-        constructor(string msg) {
-            this.message = msg;
-        }
+// A simple exception class for the standard library.
+class Exception {
+    string message;
 
-        public string getMessage() {
-            return this.message;
-        }
+    constructor(string msg) {
+        this.message = msg;
+    }
 
-        public string toString() {
-            return "Exception: " + this.message;
-        }
+    string getMessage() {
+        return this.message;
     }
 }

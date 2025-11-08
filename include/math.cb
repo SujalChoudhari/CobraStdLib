@@ -1,37 +1,30 @@
+// A static class providing common mathematical functions and constants.
+
+// Link to the native library. This must be at the top level.
 link "cobra_math";
 
-namespace Math {
-    const float PI = 3.141592653589793;
-    const float E = 2.718281828459045;
-    const float TAU = 6.283185307179586;
-    const float PHI = 1.618033988749895;
+// Low-level external function declarations. These must be at the top level.
+external double math_abs(double x);
+external double math_sin(double x);
+external double math_cos(double x);
+external double math_ceil(double x);
+external double math_floor(double x);
+external double math_round(double x);
+external int math_is_prime(int n); // Changed to return int
+external double math_lerp(double a, double b, double t);
 
-    external float abs(float x) as "math_abs";
-    external float sign(float x) as "math_sign";
-    external float floor(float x) as "math_floor";
-    external float ceil(float x) as "math_ceil";
-    external float round(float x) as "math_round";
-    external float trunc(float x) as "math_trunc";
-    external float roundTo(float x, int decimals) as "math_round_to";
+namespace System {
+    class Math {
+        static double PI = 3.141592653589793;
+        static double E = 2.718281828459045;
 
-    external float sin(float x) as "math_sin";
-    external float cos(float x) as "math_cos";
-    external float tan(float x) as "math_tan";
-    external float asin(float x) as "math_asin";
-    external float acos(float x) as "math_acos";
-    external float atan(float x) as "math_atan";
-    external float atan2(float y, float x) as "math_atan2";
-    external float sinh(float x) as "math_sinh";
-    external float cosh(float x) as "math_cosh";
-    external float tanh(float x) as "math_tanh";
-
-    external int factorial(int n) as "math_factorial";
-    external int binomial(int n, int k) as "math_binomial";
-    external int gcd(int a, int b) as "math_gcd";
-    external int lcm(int a, int b) as "math_lcm";
-
-    external bool isPrime(int n) as "math_is_prime";
-    external float clamp(float x, float lower, float upper) as "math_clamp";
-    external float lerp(float a, float b, float t) as "math_lerp";
-    external float smoothstep(float edge0, float edge1, float x) as "math_smoothstep";
+        static double abs(double x) { return math_abs(x); }
+        static double sin(double x) { return math_sin(x); }
+        static double cos(double x) { return math_cos(x); }
+        static double ceil(double x) { return math_ceil(x); }
+        static double floor(double x) { return math_floor(x); }
+        static double round(double x) { return math_round(x); }
+        static bool isPrime(int n) { return math_is_prime(n) == 1; } // Convert int to bool
+        static double lerp(double a, double b, double t) { return math_lerp(a, b, t); }
+    }
 }
